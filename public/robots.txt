@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://datawatcher-ml.vercel.app/sitemap.xml
+
+# Disallow non-content paths
+Disallow: /api/
