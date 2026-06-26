@@ -10,66 +10,116 @@ function GithubIcon({ size = 16 }) {
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const location = useLocation()
+  const [scrolled, setScrolled]   = useState(false)
+  const [menuOpen, setMenuOpen]   = useState(false)
+  const location                  = useLocation()
 
+  // Close mobile menu on route change
+  useEffect(() => { setMenuOpen(false) }, [location])
+
+  // Scroll detection
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const links = [
-    { to: '/',     label: 'Home' },
-    { to: '/docs', label: 'Docs' },
-  ]
+  // Lock body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
 
-  const externalLinks = [
-    { href: 'https://portfolio-kohl-one-zu4zhv4rkb.vercel.app/', label: 'Portfolio' },
+  const navLinks = [
+    { to: '/',     label: 'Home',   end: true },
+    { to: '/docs', label: 'Docs',   end: false },
   ]
 
   return (
-    <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container nav-inner">
-        <NavLink to="/" className="nav-logo">
-          {/* <div className="logo-icon">🔍</div> */}
-          DataWatcher
-        </NavLink>
+    <>
+      <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
+        <div className="container nav-inner">
+          <NavLink to="/" className="nav-logo">
+            DataWatcher
+          </NavLink>
 
-        <ul className="nav-links">
-          {links.map(l => (
-            <li key={l.to}>
-              <NavLink
-                to={l.to}
-                end={l.to === '/'}
-                className={({ isActive }) => isActive ? 'active' : ''}
-              >
-                {l.label}
-              </NavLink>
-            </li>
+          {/* Desktop links */}
+          <ul className="nav-links">
+            {navLinks.map(l => (
+              <li key={l.to}>
+                <NavLink
+                  to={l.to}
+                  end={l.end}
+                  className={({ isActive }) => isActive ? 'active' : ''}
+                >
+                  {l.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+
+          <div className="nav-actions">
+            {/* Desktop GitHub + CTA */}
+            <a
+              href="https://github.com/ranjeet3102/datawatcher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-github"
+            >
+              <GithubIcon size={16} />
+              GitHub
+            </a>
+            <NavLink to="https://pypi.org/project/datawatcher-ml/" className="btn btn-primary btn-sm">
+              Get Started →
+            </NavLink>
+
+            {/* Hamburger (mobile only, shown via CSS) */}
+            <button
+              className={`nav-hamburger ${menuOpen ? 'open' : ''}`}
+              onClick={() => setMenuOpen(v => !v)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="nav-mobile-menu">
+          {navLinks.map(l => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.end}
+              className={({ isActive }) => isActive ? 'active' : ''}
+            >
+              {l.label}
+            </NavLink>
           ))}
-          {/* {externalLinks.map(l => (
-            <li key={l.href}>
-              <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
-            </li>
-          ))} */}
-        </ul>
-
-        <div className="nav-actions">
+          <div className="nav-mobile-divider" />
           <a
             href="https://github.com/ranjeet3102/datawatcher"
             target="_blank"
             rel="noopener noreferrer"
-            className="nav-github"
           >
-            <GithubIcon size={16} />
+            <GithubIcon size={14} style={{ marginRight: 6 }} />
             GitHub
           </a>
-          <NavLink to="https://pypi.org/project/datawatcher-ml/" className="btn btn-primary btn-sm">
+          <a
+            href="https://pypi.org/project/datawatcher-ml/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
             Get Started →
-          </NavLink>
+          </a>
         </div>
-      </div>
-    </nav>
+      )}
+    </>
   )
 }

@@ -162,7 +162,7 @@ export default function Home() {
       {/* ── Audit categories ──────────────────────────────────── */}
       <section className="section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 64, alignItems: 'start' }}>
+          <div className="home-audit-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 64, alignItems: 'start' }}>
             <div>
               <div className="section-label">🔬 Audit Catalog</div>
               <h2 className="section-title">22+ audits across<br /><span className="gradient-text">5 categories</span></h2>
@@ -221,7 +221,7 @@ export default function Home() {
               DataWatcher computes <code className="inline-code">Score = 100 − Σ(severity_weight × audit_weight)</code> across all audits.
             </p>
           </div>
-          <div className="grid-4" style={{ textAlign: 'center' }}>
+          <div className="grid-4 score-grades-grid" style={{ textAlign: 'center' }}>
             {[
               { range: '≥ 90', grade: 'EXCELLENT', color: 'var(--sev-low)',      desc: 'Dataset is production-ready' },
               { range: '≥ 75', grade: 'GOOD',      color: 'var(--teal)',         desc: 'Minor issues to address' },
