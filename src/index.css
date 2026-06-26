@@ -485,6 +485,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   /* ── Navbar ── */
   .nav-links { display: none; }
   .nav-actions .nav-github { display: none; }
+  .nav-actions .nav-cta    { display: none; }
 
   /* hamburger button */
   .nav-hamburger {

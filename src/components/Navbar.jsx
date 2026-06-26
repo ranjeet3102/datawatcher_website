@@ -69,7 +69,7 @@ export default function Navbar() {
               <GithubIcon size={16} />
               GitHub
             </a>
-            <NavLink to="https://pypi.org/project/datawatcher-ml/" className="btn btn-primary btn-sm">
+            <NavLink to="https://pypi.org/project/datawatcher-ml/" className="btn btn-primary btn-sm nav-cta">
               Get Started →
             </NavLink>
 
